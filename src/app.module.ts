@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './ormconfig';
-import { AdmPanelModule } from './adm-panel/adm-panel.module';
-import { User } from './entities/user.entity';
-import { CollectionPoint } from './entities/collection-point.entity';
-import { UserCheckpoint } from './entities/user-checkpoint.entity';
+import { AdmPanelModule } from './modules/adm-panel/adm-panel.module';
+import { User } from './modules/entities/user.entity';
+import { CollectionPoint } from './modules/entities/collection-point.entity';
+import { UserCheckpoint } from './modules/entities/user-checkpoint.entity';
+import { typeOrmConfig } from './config/ormconfig';
 
 @Module({
   imports: [
