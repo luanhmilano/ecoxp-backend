@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ecoxp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - ecoxp-net
+
+  # app:
+  #   build: .
+  #   command: npm run start:prod
+  #   volumes:
+  #     - .:/usr/src/app
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USERNAME: postgres
+  #     DB_PASSWORD: postgres
+  #     DB_DATABASE: ecoxp
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - ecoxp-net
+
+volumes:
+  db_data:
+
+networks:
+  ecoxp-net:
+    driver: bridge
