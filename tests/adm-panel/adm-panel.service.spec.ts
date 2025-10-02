@@ -9,15 +9,24 @@ describe('AdmPanelService', () => {
   let service: AdmPanelService;
   let repository: Repository<CollectionPoint>;
 
-  const mockRepository = {
-    create: jest.fn(),
-    save: jest.fn(),
-    find: jest.fn(),
-    findOne: jest.fn(),
-    remove: jest.fn(),
+
+  let mockRepository: {
+    create: jest.Mock;
+    save: jest.Mock;
+    find: jest.Mock;
+    findOne: jest.Mock;
+    remove: jest.Mock;
   };
 
   beforeEach(async () => {
+    mockRepository = {
+      create: jest.fn(),
+      save: jest.fn(),
+      find: jest.fn(),
+      findOne: jest.fn(),
+      remove: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AdmPanelService,
@@ -44,10 +53,14 @@ describe('AdmPanelService', () => {
 
   describe('create', () => {
     it('should create a collection point', async () => {
+
       const createDto = {
         name: 'Test Point',
         type: 'recycling',
-        location: 'POINT(-46.6333 -23.5505)',
+        location: {
+          type: 'Point' as 'Point',
+          coordinates: [-46.6333, -23.5505] as [number, number],
+        }
       };
 
       const savedPoint = { id: '123', ...createDto };
