@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CollectionPoint } from '../entities/collection-point.entity';
-import { CreateCollectionPointDto } from './dto/create-collection-point.dto';
-import { UpdateCollectionPointDto } from './dto/update-collection-point.dto';
+import { CollectionPoint } from '../../entities/collection-point.entity';
+import { CreateCollectionPointDto } from '../dto/create-collection-point.dto';
+import { UpdateCollectionPointDto } from '../dto/update-collection-point.dto';
+import { AdmPanelServiceInterface } from './adm-panel.service.interface';
 
 @Injectable()
-export class AdmPanelService {
+export class AdmPanelService implements AdmPanelServiceInterface {
   constructor(
     @InjectRepository(CollectionPoint)
     private collectionPointRepository: Repository<CollectionPoint>,

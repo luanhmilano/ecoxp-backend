@@ -9,12 +9,13 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { AdmPanelService } from './adm-panel.service';
-import { CreateCollectionPointDto } from './dto/create-collection-point.dto';
-import { UpdateCollectionPointDto } from './dto/update-collection-point.dto';
+import { AdmPanelService } from '../services/adm-panel.service';
+import { CreateCollectionPointDto } from '../dto/create-collection-point.dto';
+import { UpdateCollectionPointDto } from '../dto/update-collection-point.dto';
+import { AdmPanelControllerInterface } from './adm-panel.controller.interface';
 
 @Controller('adm-panel/collection-points')
-export class AdmPanelController {
+export class AdmPanelController implements AdmPanelControllerInterface {
   constructor(private readonly admPanelService: AdmPanelService) {}
 
   @Post()
