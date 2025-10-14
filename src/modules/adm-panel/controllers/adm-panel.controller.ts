@@ -14,9 +14,12 @@ import { AdmPanelService } from '../services/adm-panel.service';
 import { CreateCollectionPointDto } from '../dto/create-collection-point.dto';
 import { UpdateCollectionPointDto } from '../dto/update-collection-point.dto';
 import { AdmPanelControllerInterface } from './adm-panel.controller.interface';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @ApiTags('Collection Points')
 @Controller('adm-panel/collection-points')
+@UseGuards(JwtAuthGuard)
 export class AdmPanelController implements AdmPanelControllerInterface {
   constructor(private readonly admPanelService: AdmPanelService) {}
 
