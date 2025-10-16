@@ -14,7 +14,15 @@ export class AdmPanelService implements AdmPanelServiceInterface {
   ) {}
 
   async create(createDto: CreateCollectionPointDto): Promise<CollectionPoint> {
-    const collectionPoint = this.collectionPointRepository.create(createDto);
+    const payload: any = { ...createDto };
+    if (payload.location && Array.isArray(payload.location.coordinates)) {
+      const [lng, lat] = payload.location.coordinates;
+      payload.longitude = lng;
+      payload.latitude = lat;
+      delete payload.location;
+    }
+
+    const collectionPoint: CollectionPoint = this.collectionPointRepository.create(payload) as unknown as CollectionPoint;
     return await this.collectionPointRepository.save(collectionPoint);
   }
 
@@ -40,7 +48,15 @@ export class AdmPanelService implements AdmPanelServiceInterface {
   ): Promise<CollectionPoint> {
     const collectionPoint = await this.findOne(id);
     
-    Object.assign(collectionPoint, updateDto);
+    const payload: any = { ...updateDto };
+    if (payload.location && Array.isArray(payload.location.coordinates)) {
+      const [lng, lat] = payload.location.coordinates;
+      payload.longitude = lng;
+      payload.latitude = lat;
+      delete payload.location;
+    }
+
+    Object.assign(collectionPoint, payload);
     
     return await this.collectionPointRepository.save(collectionPoint);
   }

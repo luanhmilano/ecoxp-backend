@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "EcoXP Backend - Test Collection",
+    "_postman_id": "ecoxp-backend-collection-001",
+    "description": "Coleção para testar rotas de auth e criação de collection points (GeoJSON e lat/long).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Register - Criar utilizador",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"P@ssw0rd\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth","register"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Login - Obter token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"P@ssw0rd\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth","login"] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  try {",
+              "    const json = pm.response.json();",
+              "    const token = json.access_token || json.token || json.jwt || json.accessToken;",
+              "    if (token) { pm.environment.set('authToken', token); }",
+              "  } catch (e) { }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "Create Collection Point (GeoJSON) - location",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{authToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Ponto Central\",\n  \"type\": \"recycling\",\n  \"location\": { \"type\": \"Point\", \"coordinates\": [-48.490, -1.455] }\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/adm-panel/collection-points", "host": ["{{baseUrl}}"], "path": ["adm-panel","collection-points"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Collection Point (lat/long) - latitude & longitude",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{authToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Ponto Central\",\n  \"type\": \"recycling\",\n  \"latitude\": -1.455,\n  \"longitude\": -48.49\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/adm-panel/collection-points", "host": ["{{baseUrl}}"], "path": ["adm-panel","collection-points"] }
+      },
+      "response": []
+    }
+  ]
+}
