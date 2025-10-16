@@ -24,7 +24,7 @@ export class CollectionPoint {
     srid: 4326,
     nullable: true,
   })
-  location: LocationDto;
+  location: string;
 
   @OneToMany(() => UserCheckpoint, checkpoint => checkpoint.point)
   checkpoints: UserCheckpoint[];

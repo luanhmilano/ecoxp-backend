@@ -10,7 +10,7 @@ import { AdmPanelServiceInterface } from './adm-panel.service.interface';
 export class AdmPanelService implements AdmPanelServiceInterface {
   constructor(
     @InjectRepository(CollectionPoint)
-    private collectionPointRepository: Repository<CollectionPoint>,
+    private readonly collectionPointRepository: Repository<CollectionPoint>,
   ) {}
 
   async create(createDto: CreateCollectionPointDto): Promise<CollectionPoint> {

@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsObject, IsString } from "class-validator";
-import { LocationDto } from "./location.dto";
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCollectionPointDto {
@@ -13,8 +12,8 @@ export class CreateCollectionPointDto {
   @IsNotEmpty({ message: 'O tipo não pode estar vazio.' })
   type: string;
 
-  @ApiProperty({ type: () => LocationDto, description: 'Geographic location' })
+  @ApiProperty({ description: 'Geographic location' })
   @IsObject({ message: 'A localização deve ser um objeto.' })
   @IsNotEmpty({ message: 'A localização não pode estar vazia.' })
-  location: LocationDto;
+  location: string;
 }

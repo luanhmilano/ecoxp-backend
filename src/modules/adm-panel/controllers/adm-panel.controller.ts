@@ -8,14 +8,14 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AdmPanelService } from '../services/adm-panel.service';
 import { CreateCollectionPointDto } from '../dto/create-collection-point.dto';
 import { UpdateCollectionPointDto } from '../dto/update-collection-point.dto';
 import { AdmPanelControllerInterface } from './adm-panel.controller.interface';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 
 @ApiTags('Collection Points')
 @Controller('adm-panel/collection-points')

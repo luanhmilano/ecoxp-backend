@@ -1,12 +1,17 @@
-import { Injectable, UnauthorizedException, BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { 
+  Injectable, 
+  UnauthorizedException, 
+  BadRequestException, 
+  ConflictException, 
+  NotFoundException 
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
-import { User } from '../entities/user.entity';
+import { User } from '../../entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from '../dto/register.dto';
+import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,13 +23,20 @@ export class AuthService {
 
 
   async register(registerDto: RegisterDto): Promise<User> {
-    const { fullName, username, email, password, confirmPassword, isUnder12, guardianEmail } = registerDto;
+    const { 
+      fullName, 
+      username, 
+      email, 
+      password, 
+      confirmPassword, 
+      isUnder12, 
+      guardianEmail 
+    } = registerDto;
 
     if (password !== confirmPassword) {
       throw new BadRequestException('As senhas não coincidem.');
     }
 
-    // Verifica se username ou email já existem
     const existingUser = await this.userRepository.findOne({
       where: [
         { username },
@@ -40,7 +52,7 @@ export class AuthService {
       if (!guardianEmail) {
         throw new BadRequestException('E-mail do responsável é obrigatório para menores de 12 anos.');
       }
-      // Busca responsável pelo e-mail
+
       const guardian = await this.userRepository.findOne({ where: { email: guardianEmail } });
       if (!guardian) {
         throw new NotFoundException('Responsável não encontrado.');
