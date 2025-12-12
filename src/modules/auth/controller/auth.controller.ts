@@ -10,11 +10,13 @@ export class AuthController implements IAuthController {
 
 	@Post('register')
 	async register(@Body() registerDto: RegisterDto) {
+		console.log('Registration attempt:', registerDto);
 		return this.authService.register(registerDto);
 	}
 
 	@Post('login')
 	async login(@Body() loginDto: LoginDto) {
+		console.log('Login attempt:', loginDto);
 		return this.authService.login(loginDto);
 	}
 }
