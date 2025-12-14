@@ -12,6 +12,7 @@ import * as bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { RegisterDto } from "../dto/register.dto";
 import { LoginDto } from "../dto/login.dto";
+import { ResetPasswordDto } from "../dto/reset-password.dto";
 
 @Injectable()
 export class AuthService {
@@ -97,5 +98,25 @@ export class AuthService {
     } catch (error) {
       return { valid: false };
     }
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
+    const { username, password } = resetPasswordDto;
+
+    const user = await this.userRepository.findOne({
+      where: { username },
+    });
+
+    if (!user) {
+      throw new NotFoundException("Usuário não encontrado.");
+    }
+
+    const newPasswordHash = await bcrypt.hash(password, 10);
+    
+    await this.userRepository.update(user.id, { 
+      passwordHash: newPasswordHash 
+    });
+
+    return { message: "Senha alterada com sucesso." };
   }
 }
